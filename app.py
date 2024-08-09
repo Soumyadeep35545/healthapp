@@ -14,16 +14,13 @@ from streamlit_option_menu import option_menu
 st.set_page_config(page_title="Health Assistant",
                    layout="wide",
                    page_icon="🧑‍⚕️")
-# getting the working directory of the main.py
-working_dir = os.path.dirname(os.path.abspath(__file__))
-
 
 # loading the saved models
 
-diabetes_model = pickle.load(open('D:\MlProject/diabetes_model.sav', 'rb'))
-heart_disease_model = pickle.load(open('D:\MlProject/heartdisease_model.sav', 'rb'))
-insurance_cost_model = pickle.load(open('D:\MlProject/insurance_cost.sav', 'rb'))
-calories_model = pickle.load(open('D:\MlProject/calories_model.sav', 'rb'))
+diabetes_model = pickle.load(open('diabetes_model.sav', 'rb'))
+heart_disease_model = pickle.load(open('heartdisease_model.sav', 'rb'))
+insurance_cost_model = pickle.load(open('insurance_cost.sav', 'rb'))
+calories_model = pickle.load(open('calories_model.sav', 'rb'))
 #sidebar for navigation
 with st.sidebar:
     selected = option_menu('Health Care System',
