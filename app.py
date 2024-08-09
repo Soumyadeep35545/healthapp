@@ -5,7 +5,7 @@ Created on Thu Aug  8 13:22:02 2024
 @author: Dell
 """
 
-
+import os
 import pickle
 import streamlit as st
 from streamlit_option_menu import option_menu
@@ -14,15 +14,17 @@ from streamlit_option_menu import option_menu
 st.set_page_config(page_title="Health Assistant",
                    layout="wide",
                    page_icon="🧑‍⚕️")
+# getting the working directory of the main.py
+working_dir = os.path.dirname(os.path.abspath(__file__))
 
-    
+
 # loading the saved models
 
-diabetes_model = pickle.load(open('diabetes_model.sav', 'rb'))
-heart_disease_model = pickle.load(open('heartdisease_model.sav', 'rb'))
-insurance_cost_model = pickle.load(open('insurance_cost.sav', 'rb'))
-calories_model = pickle.load(open('calories_model.sav', 'rb'))
-# sidebar for navigation
+diabetes_model = pickle.load(open('D:\MlProject/diabetes_model.sav', 'rb'))
+heart_disease_model = pickle.load(open('D:\MlProject/heartdisease_model.sav', 'rb'))
+insurance_cost_model = pickle.load(open('D:\MlProject/insurance_cost.sav', 'rb'))
+calories_model = pickle.load(open('D:\MlProject/calories_model.sav', 'rb'))
+#sidebar for navigation
 with st.sidebar:
     selected = option_menu('Health Care System',
 
@@ -77,17 +79,17 @@ if selected == 'Diabetes Prediction':
 
     if st.button('Diabetes Test Result'):
 
-        user_input = [Pregnancies, Glucose, BloodPressure, SkinThickness, Insulin,
-                      BMI, DiabetesPedigreeFunction, Age]
+        user_input = [Pregnancies, Glucose, BloodPressure, SkinThickness, Insulin, BMI, DiabetesPedigreeFunction, Age]
 
         user_input = [float(x) for x in user_input]
 
         diab_prediction = diabetes_model.predict([user_input])
 
         if diab_prediction[0] == 1:
-            diab_diagnosis = 'The person is diabetic'
+            diab_diagnosis = 'The person is diabetic' 
         else:
-            diab_diagnosis = 'The person is not diabetic'
+            diab_diagnosis = 'The person is not diabetic' 
+     
 
     st.success(diab_diagnosis)
 
@@ -184,55 +186,56 @@ if selected == 'Medical Insurance Cost Calculator':
         Region = st.text_input('Region (SE -0 SW-1 NE-2 NW-3')
 
 
-    
     if st.button('Calculate Insurance (IN USD)'):
 
-        user_input = [age,sex, BodyMassIndex,children,smoker,Region]
+  
+           user_input = [age,sex, BodyMassIndex,children,smoker,Region]
+           user_input = [float(x) for x in user_input]
 
-        user_input = [float(x) for x in user_input]
-
-    chargeprediction = insurance_cost_model.predict([user_input])
-    st.success(chargeprediction)
-
+           ins_prediction  = insurance_cost_model.predict([user_input])
+        
+           st.success(ins_prediction[0])
+     
 
 # Calories Burnt
 if selected == 'Calories Burnt Calculator':
 
     # page title
-    st.title('Calories Burnt Calculator')
+      st.title('Calories Burnt Calculator')
+      # getting the input data from the user
+      col1, col2, col3 ,col4= st.columns(4)
 
-    # getting the input data from the user
-    col1, col2, col3 = st.columns(3)
-
-    with col1:
+      with col1:
        Gender = st.text_input('Gender (Male-0 Female-1) ')
 
-    with col2:
+      with col2:
        Age= st.text_input('Age')
 
-    with col3:
+      with col3:
         Height  = st.text_input(' Height (in cms)')
 
-    with col1:
+      with col4:
        Weight = st.text_input('Weight (in lbs)')
 
-    with col2:
+      with col1:
         Duration  = st.text_input('Exercise Duration (in mins) ')
 
-    with col2:
+      with col2:
         Heart_Rate= st.text_input('Heart Rate (60-130)')
 
-    with col3:
+      with col3:
         Body_Temp= st.text_input('Body Temp (in Celcuis)')
+        
 
 
+      if st.button('Calculate Calories Burnt'):
+       
+       user_input = [0000000,Gender ,Age , Height , Weight , Duration , Heart_Rate , Body_Temp]
+       user_input = [float(x) for x in user_input]
+
+       cal_prediction  = calories_model.predict([user_input])
     
-    if st.button('Calculate Calories Burnt'):
-
-        user_input = [0000000,Gender ,Age , Height , Weight , Duration , Heart_Rate , Body_Temp]
-
-        user_input = [float(x) for x in user_input]
-
-    chargeprediction = calories_model.predict([user_input])
-    st.success(chargeprediction)
-    
+       st.success(cal_prediction[0])
+   
+      
+       
